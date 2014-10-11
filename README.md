@@ -1,4 +1,4 @@
-== unsplash-download.py ==
+# unsplash-download.py
 
 This little Python script allows you to download the fine public domain images
 from http://unsplash.org
