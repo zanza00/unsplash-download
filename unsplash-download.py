@@ -39,13 +39,16 @@ while True:
                 "%s/%s.jpeg" % (download_path, image_id)
             )
             
+    except urllib.error.HTTPError as e:
+        print("HTML error. This would be all.")
+        if DEBUG:
+            print(e, file=sys.stderr)
+        break
     except HTMLParser.HTMLParseError as e:
         print('Error parsing the HTML', file=sys.stderr)
         if DEBUG:
             print(e, file=sys.stderr)
-    except Exception as e:
+    except:
         print("An unknown error occured", file=sys.stderr)
-        if DEBUG:
-            print(e, file=sys.stderr)
     finally:
         page = page + 1
