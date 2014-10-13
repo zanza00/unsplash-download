@@ -1,11 +1,27 @@
 #!/usr/bin/env python
+"""
+unsplash-download - Downloads images from unsplash.com
+
+Usage:
+  unsplash-download <folder>
+  unsplash-download -h | --help
+  unsplash-download -v | --version
+
+Options:
+  -h --help                 Show this screen
+  -v --version              Show version
+
+"""
+
+DEBUG = False
+ud_version='1.0.0'
 
 import urllib.request
 import re
 import os
 import sys
 
-DEBUG = False
+from docopt import docopt, DocoptExit
 
 try:
     from bs4 import BeautifulSoup, SoupStrainer
@@ -15,7 +31,8 @@ except ImportError as e:
         print(e, file=sys.stderr)
     sys.exit()
 
-download_path = 'downloads'
+arguments     = docopt(__doc__, help=True, version='unsplash-download '+ud_version)
+download_path = arguments['<folder>']
 base_url      = 'https://unsplash.com'
 page          = 1
 link_search   = re.compile("/photos/[a-zA-Z0-9]+/download")
