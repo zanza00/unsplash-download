@@ -1,3 +1,7 @@
 downloads/
 *.pyc
 *.swp
+build/*
+dist/*
+env/*
+unsplash_download.egg-info/*
