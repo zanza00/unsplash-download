@@ -11,6 +11,8 @@ Requirements
 ------------
 
 - beautifulsoup4
+- lxml
+- docopt
 
 Installation
 ------------
