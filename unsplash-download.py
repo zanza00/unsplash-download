@@ -3,6 +3,9 @@
 import urllib.request
 import re
 import os
+import sys
+
+DEBUG = False
 
 try:
     from bs4 import BeautifulSoup, SoupStrainer
@@ -10,8 +13,8 @@ except ImportError as e:
     print("Could not import beatifulsoup4. Make sure it is installed.")
     if DEBUG:
         print(e, file=sys.stderr)
+    sys.exit()
 
-DEBUG         = False
 download_path = 'downloads'
 base_url      = 'https://unsplash.com'
 page          = 1
