@@ -10,6 +10,7 @@ run this from a cron job.
 Requirements
 ------------
 
+- Python 3
 - beautifulsoup4
 - lxml
 - docopt
