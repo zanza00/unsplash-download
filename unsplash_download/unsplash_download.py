@@ -14,7 +14,7 @@ Options:
 """
 
 DEBUG = False
-ud_version='1.0.1'
+ud_version='1.0.2'
 
 import urllib.request
 import re
