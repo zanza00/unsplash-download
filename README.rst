@@ -1,3 +1,6 @@
+![Powered by electricity](http://forthebadge.com/images/badges/powered-by-electricity.svg)
+![Gluten free](http://forthebadge.com/images/badges/gluten-free.svg)
+
 unsplash-download
 =================
 
