@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+
 if not sys.version_info[0] >= 3:
     print("Sorry, Python 2 is not supported")
     exit(255)
@@ -18,14 +19,14 @@ setup(name='unsplash-download',
       author_email='info@linux-web-development.de',
       license='MIT',
       packages=['unsplash_download'],
-      entry_points = {
-        "console_scripts": [
-          "unsplash-download = unsplash_download.unsplash_download:main",
-        ],
+      entry_points={
+          "console_scripts": [
+              "unsplash-download = unsplash_download.unsplash_download:main",
+          ],
       },
       install_requires=[
-        'beautifulsoup4',
-        'lxml',
-	'docopt'
+          'beautifulsoup4',
+          'lxml',
+          'docopt'
       ],
-    )
+      )
