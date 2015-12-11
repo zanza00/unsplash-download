@@ -26,7 +26,5 @@ setup(name='unsplash-download',
       },
       install_requires=[
           'beautifulsoup4',
-          'lxml',
-          'docopt'
       ],
       )
