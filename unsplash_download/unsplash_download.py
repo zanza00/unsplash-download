@@ -40,7 +40,7 @@ for page in range(1, ceil(photos_to_download / 20) + 1):
     try:
         soup = BeautifulSoup(urllib.request.urlopen(url).read(), "html.parser")
         for current_img_number_in_page, tag in enumerate(soup.find_all(href=link_search), start=1):
-            actual_img_number = (page - 1) + current_img_number_in_page
+            actual_img_number = (page - 1) * 20 + current_img_number_in_page
             print('Evaluating image #%s' % actual_img_number)
             image_id = str(tag['href']).split('/')[2]
             download_url = base_url + str(tag['href'])
