@@ -28,31 +28,37 @@ ud_version = '1.0.2'
 # download_path = arguments['<folder>']
 download_path = 'download'
 base_url = 'https://unsplash.com'
-photos_to_download = 39  # TODO implement arbitrary number
+img_per_page = 18
+photos_to_download = 20  # TODO implement arbitrary number
 link_search = re.compile("/photos/[a-zA-Z0-9-]+/download")
 
 if not os.path.exists(download_path):
     os.makedirs(download_path)
 
-for page in range(1, ceil(photos_to_download / 20) + 1):
+img_counter = 0
+for page in range(1, ceil(photos_to_download / img_per_page) + 1):
     url = "%s/?page=%s" % (base_url, page)
     print("Parsing page #%s %s" % (page, url))
     try:
         soup = BeautifulSoup(urllib.request.urlopen(url).read(), "html.parser")
         for current_img_number_in_page, tag in enumerate(soup.find_all(href=link_search), start=1):
-            actual_img_number = (page - 1) * 20 + current_img_number_in_page
-            print('Evaluating image #%s' % actual_img_number)
-            image_id = str(tag['href']).split('/')[2]
-            download_url = base_url + str(tag['href'])
-
-            if os.path.exists("%s/%s.jpeg" % (download_path, image_id)):
-                print("Not downloading duplicate %s" % download_url)
+            img_counter += 1
+            actual_img_number = (page - 1) * img_per_page + current_img_number_in_page
+            if actual_img_number <= photos_to_download:
+                print('Evaluating image #%s other number [%s]' % (actual_img_number, img_counter))
+                image_id = str(tag['href']).split('/')[2]
+                download_url = base_url + str(tag['href'])
+                if os.path.exists("%s/%s.jpeg" % (download_path, image_id)):
+                    print("Not downloading duplicate %s" % download_url)
+                else:
+                    print("Downloading %s" % download_url)
+                    urllib.request.urlretrieve(
+                            base_url + str(tag["href"]),
+                            "%s/%s.jpeg" % (download_path, image_id)
+                    )
             else:
-                print("Downloading %s" % download_url)
-                urllib.request.urlretrieve(
-                        base_url + str(tag["href"]),
-                        "%s/%s.jpeg" % (download_path, image_id)
-                )
+                print('Downloaded all of %s images' % photos_to_download)
+                break
 
     except urllib.error.HTTPError as e:
         print("HTML error. This would be all.")
@@ -60,4 +66,4 @@ for page in range(1, ceil(photos_to_download / 20) + 1):
             print(e, file=sys.stderr)
         break
     except:
-        print("An unknown error occured", file=sys.stderr)
+        print("An unknown error occurred", file=sys.stderr)
