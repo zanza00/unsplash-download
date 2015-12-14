@@ -26,7 +26,7 @@ ud_version = '1.0.2'
 # download_path = arguments['<folder>']
 download_path = 'download'
 base_url = 'https://unsplash.com'
-# page = 1
+photos_to_download = 1
 link_search = re.compile("/photos/[a-zA-Z0-9-]+/download")
 
 if not os.path.exists(download_path):
@@ -43,13 +43,12 @@ for page in range(1, 2):
 
             if os.path.exists("%s/%s.jpeg" % (download_path, image_id)):
                 print("Not downloading duplicate %s" % download_url)
-                continue
-
-            print("Downloading %s" % download_url)
-            urllib.request.urlretrieve(
-                    base_url + str(tag["href"]),
-                    "%s/%s.jpeg" % (download_path, image_id)
-            )
+            else:
+                print("Downloading %s" % download_url)
+                urllib.request.urlretrieve(
+                        base_url + str(tag["href"]),
+                        "%s/%s.jpeg" % (download_path, image_id)
+                )
 
     except urllib.error.HTTPError as e:
         print("HTML error. This would be all.")
