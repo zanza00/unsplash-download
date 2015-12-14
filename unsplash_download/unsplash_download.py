@@ -28,18 +28,20 @@ ud_version = '1.0.2'
 # download_path = arguments['<folder>']
 download_path = 'download'
 base_url = 'https://unsplash.com'
-photos_to_download = 35 # TODO implement arbitrary number
+photos_to_download = 39  # TODO implement arbitrary number
 link_search = re.compile("/photos/[a-zA-Z0-9-]+/download")
 
 if not os.path.exists(download_path):
     os.makedirs(download_path)
 
-for page in range(1, ceil(photos_to_download/20)):
-    url = base_url + "/?page=" + str(page)
-    print("Parsing page %s" % url)
+for page in range(1, ceil(photos_to_download / 20) + 1):
+    url = "%s/?page=%s" % (base_url, page)
+    print("Parsing page #%s %s" % (page, url))
     try:
         soup = BeautifulSoup(urllib.request.urlopen(url).read(), "html.parser")
-        for current_img_number, tag in enumerate(soup.find_all(href=link_search)):
+        for current_img_number_in_page, tag in enumerate(soup.find_all(href=link_search), start=1):
+            actual_img_number = (page - 1) + current_img_number_in_page
+            print('Evaluating image #%s' % actual_img_number)
             image_id = str(tag['href']).split('/')[2]
             download_url = base_url + str(tag['href'])
 
@@ -57,9 +59,5 @@ for page in range(1, ceil(photos_to_download/20)):
         if DEBUG:
             print(e, file=sys.stderr)
         break
-    # except HTMLParser.HTMLParseError as e:
-    #     print('Error parsing the HTML', file=sys.stderr)
-    #     if DEBUG:
-    #         print(e, file=sys.stderr)
     except:
         print("An unknown error occured", file=sys.stderr)
