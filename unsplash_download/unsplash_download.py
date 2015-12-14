@@ -4,6 +4,7 @@ unsplash-download - Downloads images from unsplash.com
 
 Usage:
   unsplash-download <folder>
+  unsplash-download
   unsplash-download -h | --help
   unsplash-download -v | --version
 
@@ -28,9 +29,9 @@ ud_version = '1.0.2'
 # download_path = arguments['<folder>']
 download_path = 'download'
 base_url = 'https://unsplash.com'
-img_per_page = 18
-photos_to_download = 20  # TODO implement arbitrary number
-link_search = re.compile("/photos/[a-zA-Z0-9-]+/download")
+img_per_page = 20
+photos_to_download = 21  # TODO implement arbitrary number
+link_search = re.compile("/photos/[a-zA-Z0-9-_]+/download")
 
 if not os.path.exists(download_path):
     os.makedirs(download_path)
