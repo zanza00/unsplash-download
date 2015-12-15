@@ -4,6 +4,7 @@ unsplash-download - Downloads images from unsplash.com
 
 Usage:
   unsplash-download <folder>
+  unsplash-download -n=<photos_to_download> |  --number=<photos_to_download>
   unsplash-download
   unsplash-download -h | --help
   unsplash-download -v | --version
@@ -11,6 +12,7 @@ Usage:
 Options:
   -h --help                 Show this screen
   -v --version              Show version
+  -n <photos_to_download> --number=<photos_to_download> The Photos to Download
 
 """
 import os
@@ -18,7 +20,8 @@ import re
 import sys
 import urllib.request
 from docopt import docopt
-from bs4 import BeautifulSoup, SoupStrainer
+from bs4 import BeautifulSoup
+from itertools import count
 
 from math import ceil
 
@@ -36,17 +39,15 @@ link_search = re.compile("/photos/[a-zA-Z0-9-_]+/download")
 if not os.path.exists(download_path):
     os.makedirs(download_path)
 
-img_counter = 0
-for page in range(1, ceil(photos_to_download / img_per_page) + 1):
+for page in count(start=1):
     url = "%s/?page=%s" % (base_url, page)
     print("Parsing page #%s %s" % (page, url))
     try:
         soup = BeautifulSoup(urllib.request.urlopen(url).read(), "html.parser")
         for current_img_number_in_page, tag in enumerate(soup.find_all(href=link_search), start=1):
-            img_counter += 1
             actual_img_number = (page - 1) * img_per_page + current_img_number_in_page
             if actual_img_number <= photos_to_download:
-                print('Evaluating image #%s other number [%s]' % (actual_img_number, img_counter))
+                print('Evaluating image #%s' % actual_img_number)
                 image_id = str(tag['href']).split('/')[2]
                 download_url = base_url + str(tag['href'])
                 if os.path.exists("%s/%s.jpeg" % (download_path, image_id)):
