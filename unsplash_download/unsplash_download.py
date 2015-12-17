@@ -69,3 +69,6 @@ for page in count(start=1):
         break
     except:
         print("An unknown error occurred", file=sys.stderr)
+    else:
+        print('script finished')
+        break
