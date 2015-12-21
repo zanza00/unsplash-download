@@ -23,8 +23,6 @@ from docopt import docopt
 from bs4 import BeautifulSoup
 from itertools import count
 
-from math import ceil
-
 DEBUG = False
 ud_version = '1.0.2'
 
@@ -43,7 +41,7 @@ for page in count(start=1):
     url = "%s/?page=%s" % (base_url, page)
     print("Parsing page #%s %s" % (page, url))
     try:
-        soup = BeautifulSoup(urllib.request.urlopen(url).read(), "html.parser")
+        soup = BeautifulSoup(urllib.request.urlopen(url).read(), "lxml")
         for current_img_number_in_page, tag in enumerate(soup.find_all(href=link_search), start=1):
             actual_img_number = (page - 1) * img_per_page + current_img_number_in_page
             if actual_img_number <= photos_to_download:
