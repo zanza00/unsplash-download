@@ -4,7 +4,7 @@ unsplash-download - Downloads images from unsplash.com
 
 Usage:
   unsplash-download <folder>
-  unsplash-download -n=<photos_to_download> |  --number=<photos_to_download>
+  unsplash-download <-n=photos_to_download>
   unsplash-download
   unsplash-download -h | --help
   unsplash-download -v | --version
@@ -12,7 +12,7 @@ Usage:
 Options:
   -h --help                 Show this screen
   -v --version              Show version
-  -n <photos_to_download> --number=<photos_to_download> The Photos to Download
+  -n <photos_to_download>   The Photos to Download
 
 """
 import os
@@ -31,12 +31,13 @@ ud_version = '1.0.2'
 download_path = 'download'
 base_url = 'https://unsplash.com'
 img_per_page = 20
-photos_to_download = 21  # TODO implement arbitrary number
+photos_to_download = 50  # TODO implement arbitrary number
 link_search = re.compile("/photos/[a-zA-Z0-9-_]+/download")
 
 if not os.path.exists(download_path):
     os.makedirs(download_path)
 
+actual_img_number = 0
 for page in count(start=1):
     url = "%s/?page=%s" % (base_url, page)
     print("Parsing page #%s %s" % (page, url))
@@ -68,5 +69,6 @@ for page in count(start=1):
     except:
         print("An unknown error occurred", file=sys.stderr)
     else:
-        print('script finished')
-        break
+        if actual_img_number >= photos_to_download:
+            print('script finished')
+            break
